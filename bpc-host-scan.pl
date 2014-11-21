@@ -46,12 +46,12 @@ my $crit = 4;
 foreach my $k1 (keys %Status){
         # Only look for last good backup time
         if ($Status{$k1}{"lastGoodBackupTime"}) {
-                # Format last good backup time 
+                # Format last good backup time
                 my $lgb =  localtime($Status{$k1}{"lastGoodBackupTime"});
                 # Calculate days between now and then
                 my $diff = ($now - $lgb)->days;
                 my $nag = 3;
-                my $nice = "";
+                my $nice = "UNKOWN";
 
                 #Determin Warn/Crit level
                 if ($diff < $warn) {
@@ -59,16 +59,16 @@ foreach my $k1 (keys %Status){
                         $nice = "OK";
                 } elsif ($diff < $crit) {
                         $nag = 1;
-                        $nice = "WARN";
+                        $nice = "WARNING";
                 } elsif ($diff >= $crit) {
                         $nag = 2;
-                        $nice = "CRIT";
+                        $nice = "CRITICAL";
                 }
 
                 #Print Warn/Crit level
                 print $nag." ";
                 #Print the server name
-                print "backup-$k1 ";
+                print "BackupPC_$k1 ";
 
                 print "age=";
                 #Print number of days since last backup
@@ -79,7 +79,7 @@ foreach my $k1 (keys %Status){
                 #Print nice output
                 print "$nice - Last backup was ";
                 printf("%.0f", $diff);
-                print " days ago.";
+                print " days ago";
                 print "\n";
         }
 }
